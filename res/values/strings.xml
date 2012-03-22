@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Body Buldroid</string>
+    <string name="button_name_enable">Start</string>
+    <string name="button_name_pause">Pause</string>
+    <string name="button_name_resume">Resume</string>
+    <string name="button_name_reset">Reset</string>
+    <string name="iterationNumberLabel">Iteration : </string>
+    <string name="iterationNumberValue">0</string>
+
+</resources>
