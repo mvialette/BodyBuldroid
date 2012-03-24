@@ -47,13 +47,6 @@
              android:textSize="40dp" />
 
          <Button
-             android:id="@+id/btn_pause"
-             android:layout_column="1"
-             android:layout_columnSpan="2"
-             android:layout_row="5"
-             android:text="@string/button_name_pause" />
-
-         <Button
              android:id="@+id/btn_resume"
              android:layout_column="2"
              android:layout_columnSpan="3"

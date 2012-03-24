@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class Duration extends CountDownTimer {
@@ -14,6 +15,7 @@ public class Duration extends CountDownTimer {
     private long notifyFirst, notifySecond;
     private TextView countView;
     private Context context;
+    private Button button;
  
     /**
      *
@@ -22,20 +24,22 @@ public class Duration extends CountDownTimer {
      * @param countDownInterval
      */
     public Duration(long millisInFuture, long countDownInterval, TextView view,
-            Context context, long first, long second) {
+            Context context, long first, long second, Button button) {
         super(millisInFuture, countDownInterval);
         pauseTime = millisInFuture;
         notifyFirst = first / 1000;
         notifySecond = second / 1000;
         countView = view;
         this.context = context;
+        this.button = button;
  
     }
  
     @Override
     public void onFinish() {
-        countView.setText("The End");
+        countView.setText("Go !");
         onNotify("FINISH");
+        button.setEnabled(true);
     }
  
     /**
@@ -78,7 +82,7 @@ public class Duration extends CountDownTimer {
      */
     public Duration onResume() {
         Duration d = new Duration(pauseTime, 1000, countView, context,
-                notifyFirst, notifySecond);
+                notifyFirst, notifySecond, button);
         return d;
     }
  
