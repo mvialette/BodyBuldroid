@@ -7,5 +7,7 @@
     <string name="button_name_reset">Reset</string>
     <string name="iterationNumberLabel">Iteration : </string>
     <string name="iterationNumberValue">0</string>
-
+	<string name="planet_prompt">Choose a planet</string>
+	<string name="unit">Kg</string>
+	<string name="button_name_update">Update</string>
 </resources>
