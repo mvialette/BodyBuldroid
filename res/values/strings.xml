@@ -10,4 +10,5 @@
 	<string name="planet_prompt">Choose a planet</string>
 	<string name="unit">Kg</string>
 	<string name="button_name_update">Update</string>
+	<string name="button_name_next">Next</string>
 </resources>

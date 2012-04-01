@@ -4,18 +4,21 @@ public class MouvementSpecification {
 
 	private int id;
 
-	private String name;
+	private String practiceName;
 
 	private int charge;
 
 	// how much time the exercice was sucessly done
 	private int completeTime;
-
-	public MouvementSpecification(String name, int charge, int completeTime) {
+	
+	private String serieName;
+	
+	public MouvementSpecification(String practiceName, int charge, int completeTime,String serieName) {
 		super();
-		this.name = name;
+		this.practiceName = practiceName;
 		this.charge = charge;
 		this.completeTime = completeTime;
+		this.serieName = serieName;
 	}
 
 	public int getId() {
@@ -26,12 +29,12 @@ public class MouvementSpecification {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getPracticeName() {
+		return practiceName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPracticeName(String practiceName) {
+		this.practiceName = practiceName;
 	}
 
 	public int getCharge() {
@@ -50,4 +53,11 @@ public class MouvementSpecification {
 		this.completeTime = completeTime;
 	}
 
+	public String getSerieName() {
+		return serieName;
+	}
+
+	public void setSerieName(String serieName) {
+		this.serieName = serieName;
+	}
 }

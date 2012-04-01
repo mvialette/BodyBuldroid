@@ -8,25 +8,31 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MyBaseSQLite extends SQLiteOpenHelper {
 
 	// BodyBulDroid MouVemenT SPECification : bbd_mvt_spec
-	public static final String TABLE_MOUVEMENT_SPECIFICATION = "bbd_mvt_spec";
+	public static final String TABLE_MOUVEMENT_SPECIFICATION = "BBD_MVT_SPEC";
 
 	public static final String COL_ID = "ID";
 	public static final int COL_ID_POSITION = 0;
 
-	public static final String COL_NAME = "NAME";
-	public static final int COL_NAME_POSITION = 1;
+	public static final String COL_PRACTICE_NAME = "PRACTICE_NAME";
+	public static final int COL_PRACTICE_NAME_POSITION = 1;
 
 	public static final String COL_CHARGE = "CHARGE";
 	public static final int COL_CHARGE_POSITION = 2;
 
 	public static final String COL_COMPLETE_TIME = "TIME";
 	public static final int COL_COMPLETE_TIME_POSITION = 3;
+	
+	public static final String COL_SERIE_NAME = "SERIE_NAME";
+	public static final int COL_SERIE_NAME_POSITION = 4;
+	
 
 	private static final String CREATE_BDD = "CREATE TABLE "
-			+ TABLE_MOUVEMENT_SPECIFICATION + " (" + COL_ID
-			+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME
-			+ " TEXT NOT NULL, " + COL_CHARGE + " INTEGER NOT NULL, "
-			+ COL_COMPLETE_TIME + " INTEGER NOT NULL);";
+			+ TABLE_MOUVEMENT_SPECIFICATION + " (" 
+			+ COL_ID	+ " INTEGER PRIMARY KEY AUTOINCREMENT, " 
+			+ COL_PRACTICE_NAME + " TEXT NOT NULL, " 
+			+ COL_CHARGE + " INTEGER NOT NULL, "
+			+ COL_COMPLETE_TIME + " INTEGER NOT NULL, "
+			+ COL_SERIE_NAME + " TEXT NOT NULL);";
 
 	public MyBaseSQLite(Context context, String name, CursorFactory factory,
 			int version) {
