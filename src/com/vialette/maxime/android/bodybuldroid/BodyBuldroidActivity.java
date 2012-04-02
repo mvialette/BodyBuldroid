@@ -1,6 +1,7 @@
 package com.vialette.maxime.android.bodybuldroid;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,6 +30,7 @@ public class BodyBuldroidActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		final Spinner serieSpinner = (Spinner) findViewById(R.id.serieSpinner);
 		final ArrayAdapter<CharSequence> adapterSerieSpinner = new ArrayAdapter<CharSequence>(

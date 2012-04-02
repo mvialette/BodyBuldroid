@@ -11,4 +11,5 @@
 	<string name="unit">Kg</string>
 	<string name="button_name_update">Update</string>
 	<string name="button_name_next">Next</string>
+	<string name="chargeLabelValue">"Charge : "</string>
 </resources>
