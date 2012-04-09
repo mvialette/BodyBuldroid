@@ -13,12 +13,18 @@ public class MouvementSpecification {
 	
 	private String serieName;
 	
+	/**
+	 * Rest time in second
+	 */
+	private int restTimeInSec;
+	
 	public MouvementSpecification(String practiceName, int charge, int completeTime,String serieName) {
 		super();
 		this.practiceName = practiceName;
 		this.charge = charge;
 		this.completeTime = completeTime;
 		this.serieName = serieName;
+		this.restTimeInSec = 45;
 	}
 
 	public int getId() {
@@ -60,4 +66,13 @@ public class MouvementSpecification {
 	public void setSerieName(String serieName) {
 		this.serieName = serieName;
 	}
+
+	public int getRestTimeInSec() {
+		return restTimeInSec;
+	}
+
+	public void setRestTimeInSec(int restTimeInSec) {
+		this.restTimeInSec = restTimeInSec;
+	}
+	
 }

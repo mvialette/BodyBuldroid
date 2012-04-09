@@ -1,6 +1,10 @@
 package com.vialette.maxime.android.bodybuldroid;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +16,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class BodyBuldroidActivity extends Activity {
 
@@ -24,6 +29,8 @@ public class BodyBuldroidActivity extends Activity {
 	private long pauseTime;
 
 	private MouvementSpecification mouvementSpecification;
+	
+	private MouvementSpecificationDAO dao = null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -40,11 +47,16 @@ public class BodyBuldroidActivity extends Activity {
 		final ArrayAdapter<CharSequence> adapterExercice = new ArrayAdapter<CharSequence>(
 				this, android.R.layout.simple_spinner_item);
 
+		List<Button> buttonsToDisable = new ArrayList<Button>();
+		buttonsToDisable.add((Button) findViewById(R.id.btn_start));
+		buttonsToDisable.add((Button) findViewById(R.id.btn_next));
+		buttonsToDisable.add((Button) findViewById(R.id.btn_resume));
+		
 		final Duration duration = new Duration(45 * 1000, 1000,
 				(TextView) findViewById(R.id.countDownTextView),
 				getApplicationContext(), 40 * 1000, 35 * 1000,
-				(Button) findViewById(R.id.btn_start));
-
+				buttonsToDisable);
+		
 		final Button buttonStartTimer = (Button) findViewById(R.id.btn_start);
 
 		final EditText chargeText = (EditText) findViewById(R.id.chargeText);
@@ -59,7 +71,7 @@ public class BodyBuldroidActivity extends Activity {
 		final Button buttonUpdate = (Button) findViewById(R.id.btn_update);
 
 		// Création d'une instance de ma classe LivresBDD
-		final MouvementSpecificationDAO dao = new MouvementSpecificationDAO(
+		dao = new MouvementSpecificationDAO(
 				this);
 
 		// On ouvre la base de données pour écrire dedans
@@ -93,12 +105,13 @@ public class BodyBuldroidActivity extends Activity {
 
 				excerciceSpinner.setSelection(0);
 				chargeText.setText("" + mouvementSpecification.getCharge());
+				
+				upgradeCharge();
 				ratingBar.setRating(mouvementSpecification.getCompleteTime());
 			}
 
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-
+				// Nothing to do in this case.
 			}
 		});
 
@@ -123,6 +136,8 @@ public class BodyBuldroidActivity extends Activity {
 						mouvementSpecification = dao.getMouvementSpecificationWithPracticeNameAndSerieName(
 								nameToFind,
 								(String) serieSpinner.getSelectedItem());
+						
+						upgradeCharge();
 
 						chargeText.setText(""
 								+ mouvementSpecification.getCharge());
@@ -131,7 +146,7 @@ public class BodyBuldroidActivity extends Activity {
 					}
 
 					public void onNothingSelected(AdapterView<?> arg0) {
-						// TODO Auto-generated method stub
+						// Nothing to do in this case.
 					}
 				});
 
@@ -161,6 +176,7 @@ public class BodyBuldroidActivity extends Activity {
 			ratingBar.setRating(0F);
 			chargeText.setText("");
 		} else {
+			upgradeCharge();
 			ratingBar.setRating(mouvementSpecification.getCompleteTime());
 			chargeText.setText("" + mouvementSpecification.getCharge());
 		}
@@ -168,6 +184,9 @@ public class BodyBuldroidActivity extends Activity {
 		buttonStartTimer.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
 				buttonStartTimer.setEnabled(false);
+				buttonResumeTimer.setEnabled(false);
+				buttonNext.setEnabled(false);
+				
 				duration.start();
 				TextView textViewIterationNumber = (TextView) findViewById(R.id.textViewIterationNumber);
 				iterationNumber++;
@@ -192,7 +211,10 @@ public class BodyBuldroidActivity extends Activity {
 
 		buttonNext.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
-
+				int newCharge = Integer.parseInt(chargeText.getText()
+						.toString());
+				
+				mouvementSpecification.setCharge(newCharge);
 				mouvementSpecification.setCompleteTime((int) (ratingBar
 						.getRating() + 1));
 				dao.saveOrUpdate(mouvementSpecification);
@@ -202,7 +224,17 @@ public class BodyBuldroidActivity extends Activity {
 					excerciceSpinner.setSelection(excerciceSpinner
 							.getSelectedItemPosition() + 1);
 				}
+				
+				TextView textViewIterationNumber = (TextView) findViewById(R.id.textViewIterationNumber);
+				iterationNumber = 0;
+				textViewIterationNumber.setText("" + iterationNumber);
 
+				TextView countdown = (TextView) findViewById(R.id.countDownTextView);
+				countdown.setText("");
+
+				buttonStartTimer.setEnabled(true);
+
+				duration.cancel();
 			}
 		});
 
@@ -218,5 +250,24 @@ public class BodyBuldroidActivity extends Activity {
 				dao.saveOrUpdate(mouvementSpecification);
 			}
 		});
+	}
+	
+	private void upgradeCharge() {
+		// Do we have to upgrade the charge ?
+		if(mouvementSpecification.getCompleteTime() == 5){
+			int previousCharge = mouvementSpecification.getCharge() + 5;
+			int nextCharge = mouvementSpecification.getCharge() + 5;
+			Context context = getApplicationContext();
+			CharSequence text = "Isn't that too easy? Let's try harder, before you do with ["+previousCharge+" Kg], now try with as least ["+nextCharge+" Kg]";
+			int duration = Toast.LENGTH_LONG;
+
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
+			
+			mouvementSpecification.setCompleteTime(1);
+			mouvementSpecification.setCharge(nextCharge);
+			
+			dao.saveOrUpdate(mouvementSpecification);
+		}
 	}
 }

@@ -1,5 +1,7 @@
 package com.vialette.maxime.android.bodybuldroid;
 
+import java.util.List;
+
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -14,7 +16,7 @@ public class Duration extends CountDownTimer {
     private long notifyFirst, notifySecond;
     private TextView countView;
     private Context context;
-    private Button button;
+    private List<Button> buttons;
  
     /**
      *
@@ -23,14 +25,14 @@ public class Duration extends CountDownTimer {
      * @param countDownInterval
      */
     public Duration(long millisInFuture, long countDownInterval, TextView view,
-            Context context, long first, long second, Button button) {
+            Context context, long first, long second, List<Button> buttons) {
         super(millisInFuture, countDownInterval);
         pauseTime = millisInFuture;
         notifyFirst = first / 1000;
         notifySecond = second / 1000;
         countView = view;
         this.context = context;
-        this.button = button;
+        this.buttons = buttons;
  
     }
  
@@ -38,7 +40,10 @@ public class Duration extends CountDownTimer {
     public void onFinish() {
         countView.setText("Go !");
         onNotify("FINISH");
-        button.setEnabled(true);
+        
+        for (Button button : buttons) {
+        	button.setEnabled(true);
+		}
     }
  
     /**
@@ -81,7 +86,7 @@ public class Duration extends CountDownTimer {
      */
     public Duration onResume() {
         Duration d = new Duration(pauseTime, 1000, countView, context,
-                notifyFirst, notifySecond, button);
+                notifyFirst, notifySecond, buttons);
         return d;
     }
  

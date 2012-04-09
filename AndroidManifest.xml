@@ -3,9 +3,8 @@
     package="com.vialette.maxime.android.bodybuldroid"
     android:versionCode="1"
     android:versionName="1.1"
-    android:screenOrientation="portrait" >
-
-    <uses-sdk android:minSdkVersion="14" />
+    android:screenOrientation="portrait" ><uses-sdk android:minSdkVersion="14" />
+    
 
     <application
         android:icon="@drawable/ic_launcher"
