@@ -26,6 +26,15 @@ public class MouvementSpecification {
 		this.serieName = serieName;
 		this.restTimeInSec = 45;
 	}
+	
+	public MouvementSpecification(String practiceName, int charge, int completeTime,String serieName, int restTimeInSec) {
+		super();
+		this.practiceName = practiceName;
+		this.charge = charge;
+		this.completeTime = completeTime;
+		this.serieName = serieName;
+		this.restTimeInSec = restTimeInSec;
+	}
 
 	public int getId() {
 		return id;

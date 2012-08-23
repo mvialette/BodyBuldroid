@@ -31,6 +31,10 @@ public class BodyBuldroidActivity extends Activity {
 	private MouvementSpecification mouvementSpecification;
 	
 	private MouvementSpecificationDAO dao = null;
+	
+	private Duration duration = null;
+	
+	private List<Button> buttonsToDisable = null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -47,14 +51,14 @@ public class BodyBuldroidActivity extends Activity {
 		final ArrayAdapter<CharSequence> adapterExercice = new ArrayAdapter<CharSequence>(
 				this, android.R.layout.simple_spinner_item);
 
-		List<Button> buttonsToDisable = new ArrayList<Button>();
+		buttonsToDisable = new ArrayList<Button>();
 		buttonsToDisable.add((Button) findViewById(R.id.btn_start));
 		buttonsToDisable.add((Button) findViewById(R.id.btn_next));
 		buttonsToDisable.add((Button) findViewById(R.id.btn_resume));
 		
-		final Duration duration = new Duration(45 * 1000, 1000,
+		duration = new Duration(45 * 1000, 1000,
 				(TextView) findViewById(R.id.countDownTextView),
-				getApplicationContext(), 40 * 1000, 35 * 1000,
+				getApplicationContext(), 45 * 1000, 35 * 1000,
 				buttonsToDisable);
 		
 		final Button buttonStartTimer = (Button) findViewById(R.id.btn_start);
@@ -136,6 +140,12 @@ public class BodyBuldroidActivity extends Activity {
 						mouvementSpecification = dao.getMouvementSpecificationWithPracticeNameAndSerieName(
 								nameToFind,
 								(String) serieSpinner.getSelectedItem());
+						
+						if(serieSpinner.getSelectedItemPosition() == 6)
+						duration = new Duration(45 * 1000, 1000,
+								(TextView) findViewById(R.id.countDownTextView),
+								getApplicationContext(), 45 * 1000, 35 * 1000,
+								buttonsToDisable);
 						
 						upgradeCharge();
 
@@ -253,9 +263,22 @@ public class BodyBuldroidActivity extends Activity {
 	}
 	
 	private void upgradeCharge() {
+		
+		if(mouvementSpecification.getPracticeName().startsWith("6-")){
+			duration = new Duration(60 * 1000, 1000,
+					(TextView) findViewById(R.id.countDownTextView),
+					getApplicationContext(), 60 * 1000, 35 * 1000,
+					buttonsToDisable);
+		}else{
+			duration = new Duration(45 * 1000, 1000,
+					(TextView) findViewById(R.id.countDownTextView),
+					getApplicationContext(), 45 * 1000, 35 * 1000,
+					buttonsToDisable);			
+		}
+		
 		// Do we have to upgrade the charge ?
 		if(mouvementSpecification.getCompleteTime() == 5){
-			int previousCharge = mouvementSpecification.getCharge() + 5;
+			int previousCharge = mouvementSpecification.getCharge();
 			int nextCharge = mouvementSpecification.getCharge() + 5;
 			Context context = getApplicationContext();
 			CharSequence text = "Isn't that too easy? Let's try harder, before you do with ["+previousCharge+" Kg], now try with as least ["+nextCharge+" Kg]";
